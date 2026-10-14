@@ -22,7 +22,7 @@ COG_DIR = BASE_DIR / "cog"
 TOKEN_FILE = BASE_DIR / "bot_token.txt"
 
 # Alternatively, set the DISCORD_BOT_TOKEN environment variable.
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
+BOT_TOKEN = os.getenv("DISCORD_TOKEN", "").strip()
 
 # Configure the bot's activity here.
 ACTIVITY_TEXT = "Blox Fruits Stock"
@@ -65,7 +65,7 @@ async def on_ready() -> None:
 
 
 async def main() -> None:
-    token = BOT_TOKEN.strip()
+    token = DISCORD_TOKEN.strip()
     if not token or token == "PASTE_YOUR_DISCORD_BOT_TOKEN_HERE":
         raise RuntimeError(
             "Add your Discord bot token to the BOT_TOKEN variable near the top of main.py."
