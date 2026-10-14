@@ -22,7 +22,7 @@ COG_DIR = BASE_DIR / "cog"
 TOKEN_FILE = BASE_DIR / "bot_token.txt"
 
 # Alternatively, set the DISCORD_BOT_TOKEN environment variable.
-BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN", "").strip()
+BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 
 # Configure the bot's activity here.
 ACTIVITY_TEXT = "Blox Fruits Stock"
