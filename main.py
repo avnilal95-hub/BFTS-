@@ -1,6 +1,7 @@
 import os
+import asyncio
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from pathlib import Path
 
 TOKEN = os.getenv("DISCORD_TOKEN")
@@ -19,6 +20,40 @@ bot = commands.Bot(
     command_prefix="!",
     intents=intents
 )
+
+activity_index = 0
+
+
+@tasks.loop(seconds=15)
+async def rotate_activity():
+    global activity_index
+
+    total_users = sum(
+        guild.member_count or 0
+        for guild in bot.guilds
+    )
+
+    activities = [
+        discord.Activity(
+            type=discord.ActivityType.listening,
+            name=f"{total_users} users"
+        ),
+        discord.Activity(
+            type=discord.ActivityType.watching,
+            name="Blox Fruits Server"
+        )
+    ]
+
+    await bot.change_presence(activity=activities[activity_index])
+    activity_index = (activity_index + 1) % len(activities)
+
+
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user} ({bot.user.id})")
+
+    if not rotate_activity.is_running():
+        rotate_activity.start()
 
 
 async def load_cogs():
@@ -44,5 +79,4 @@ async def main():
 
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
